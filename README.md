@@ -1,38 +1,28 @@
 bashrc
 ======
 
-My .bashrc file. A few things from an original debian .bashrc file plus a
-lot of own modifications. 
+## **My .bashrc file**
 
-Lots of aliases and terminal control sequences.
-Also many custom functions, highlights:
+A few things from an original debian .bashrc file plus a lot of own modifications. 
+Lots of aliases and terminal control sequences. Also many custom functions, some highlights are:
 
-extract()
+**extract( )**  
+_automatically detects correct archive type and extracts the files_
 
-automatically detects correct archive type and extracts the files
+**mktar( ), mktgz( ), mktbz( ) and mkzip( )**   
+_Creates an archive from a given directory_
 
-mktar(), mktgz(), mktbz() and mkzip()
+**up( ) and back( )**  
+_Lets you easily navigate through directorys with and up N and back command_
 
-Creates an archive from a given directory
+**ii( ) and myip( )**   
+_Displays host related information_
 
-up() and back()
+**encrypt( ) and decrypt( )**    
+_Encrypts and decrypts a given file or directory with gpg._
 
-lets you easily navigate through directorys with and up N and back command
+**argc( )**  
+_Tests automatically when you open a file if it should be opened normally, 
+or as root and asks you for permission._
 
-ii() and myip()
-
-Displays host related information
-
-encrypt() and decrypt()
-
-Encrypts and decrypts a given file or directory with gpg. 
-
-argc()
-
-Tests automatically when you open a file if it should be opened normally, 
-or as root and asks you for permission.
-
-
-For questions you can email me: geosch@nocash.at
-
-Have fun! :-)
+Have fun!  :-)
