@@ -146,6 +146,7 @@ alias reload='source ~/.bashrc'
 alias top-commands='echo -e " Count:   Command:"; history | grep -o "  [a-z.:/-\"|_].*" | sort | uniq -c | sort -rn | head -10'
 alias top-files='du -a /var | sort -n -r | head -n 10'
 
+
 ##******************************************************************************
 # Sudo fixes
 alias sudo='sudo env PATH=$PATH'
@@ -179,39 +180,31 @@ extract()
   fi
 }
 
-
 ##******************************************************************************
-# Creates an archive from given directory
-mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
-mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
-mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
-mkzip() { zip -r "${1%%/}.zip" "${1%%/}"; }
-
-
-##******************************************************************************
-# up goes "up" N directory, back goes back to the last directory you were
+# up <N>      goes "up" N directory
+# down <N>    goes "down" N directories in the last directory tree you were
 function up()
 {
-LIMIT=$1
-P=$PWD
-for ((i=1; i <= LIMIT; i++))
-do
-    P=$P/..
-done
-cd $P
-export MPWD=$P
+  LIMIT=$1
+  P=$PWD
+  for ((i=1; i <= LIMIT; i++))
+  do
+      P=$P/..
+  done
+  cd $P
+  export MPWD=$P
 }
 
-function back()
+function down()
 {
-LIMIT=$1
-P=$MPWD
-for ((i=1; i <= LIMIT; i++))
-do
-    P=${P%/..}
-done
-cd $P
-export MPWD=$P
+  L=$1
+  P=$MPWD
+  for ((i=1; i <= (L); i++))
+  do
+      P=${P%/..}
+  done
+  cd $P
+  export MPWD=$P
 }
 
 
@@ -234,13 +227,11 @@ function ii()
 # Get IP infos
 myip ()
 {
-echo -ne "Global IP: ";  lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | grep "Current IP Address" | cut -d":" -f2 | cut -d" " -f2
+  echo -ne "Global IP: ";  lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | grep "Current IP Address" | cut -d":" -f2 | cut -d" " -f2
 
-echo -ne "Lokal IP : ";  ifconfig eth0 | grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* Bcast" | grep -o --color=no "[0-9.]*"
-echo -ne "BCast    : ";  ifconfig eth0 | grep -o "Bcast:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* " | grep -o --color=no "[0-9.]*"
-echo -ne "Mask     : ";  ifconfig eth0 | grep -o "Maske:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*" | grep -o --color=no "[0-9.]*"
-
-
+  echo -ne "Lokal IP : ";  ifconfig eth0 | grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* Bcast" | grep -o --color=no "[0-9.]*"
+  echo -ne "BCast    : ";  ifconfig eth0 | grep -o "Bcast:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* " | grep -o --color=no "[0-9.]*"
+  echo -ne "Mask     : ";  ifconfig eth0 | grep -o "Maske:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*" | grep -o --color=no "[0-9.]*"
 }
 
 
@@ -259,8 +250,15 @@ decrypt ()
 
 
 ##******************************************************************************
+# Creates an archive from given directory
+mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
+mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+mkzip() { zip -r "${1%%/}.zip" "${1%%/}"; }
+
+
+##******************************************************************************
 # Test if a file should be opened normally, or as root (gedit)
-# You can replace "gedit" with your favourite editor.
 function argc () 
 {
   count=0;
@@ -285,6 +283,4 @@ function gedit ()
     fi
   fi
 }
-
-
 
