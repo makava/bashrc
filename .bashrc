@@ -78,10 +78,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+FANCY="\342\231\245"   # unicode heart (ALT code)
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+    PS1="\[$yellow\]\h: \[$red\]\w \[$yellow\]$FANCY \[$nc\] "
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1="\h: \w \$ "
 fi
 unset color_prompt force_color_prompt
 
@@ -109,9 +111,13 @@ fi
 ##******************************************************************************
 # Welcome message:
 clear
+echo -ne "$lightgreen"
 figlet "Welcome, " $USER;
+echo -ne "$yellow"
 echo -ne "Today is "; date
 echo -ne "Uptime: "; uptime | grep -o --color=no '[0-9:]*[ min]*[ days]*,.*'
+top -b -n 1 -d 0 | grep --color=no "Tasks: "
+echo -ne "$nc"
 echo
 w | grep -v --color=no "[0-9]*:[0-9]*:[0-9]*"
 echo
@@ -119,9 +125,8 @@ df -h -x tmpfs -x udev # disk usage, minus def and swap
 
 
 ##******************************************************************************
-# Program aliases
-#alias foobar='nohup wine /media/win/Users/Subzero/Desktop/foobar2000/foobar2000.exe & exit'
-alias qtcreator='qtcreator -stylesheet='~/Qt5.1.1/skyrim.css''
+# Git:
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit" 
 
 
 ##******************************************************************************
@@ -186,6 +191,7 @@ extract()
 function up()
 {
   LIMIT=$1
+  if [[ "$LIMIT" == '' ]]; then LIMIT=1; fi;
   P=$PWD
   for ((i=1; i <= LIMIT; i++))
   do
@@ -198,6 +204,7 @@ function up()
 function down()
 {
   L=$1
+  if [[ "$L" == '' ]]; then L=1; fi;  
   P=$MPWD
   for ((i=1; i <= (L); i++))
   do
@@ -231,7 +238,7 @@ myip ()
 
   echo -ne "Lokal IP : ";  ifconfig eth0 | grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* Bcast" | grep -o --color=no "[0-9.]*"
   echo -ne "BCast    : ";  ifconfig eth0 | grep -o "Bcast:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.* " | grep -o --color=no "[0-9.]*"
-  echo -ne "Mask     : ";  ifconfig eth0 | grep -o "Maske:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*" | grep -o --color=no "[0-9.]*"
+  echo -ne "Mask     : ";  ifconfig eth0 | grep -o "Mask:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*" | grep -o --color=no "[0-9.]*"
 }
 
 
@@ -258,7 +265,8 @@ mkzip() { zip -r "${1%%/}.zip" "${1%%/}"; }
 
 
 ##******************************************************************************
-# Test if a file should be opened normally, or as root (gedit)
+# Test if a file should be opened normally, or as root with editor and
+# alternative editor. Change paths if you want another editor
 function argc () 
 {
   count=0;
