@@ -1,21 +1,28 @@
 ##******************************************************************************
 # Colors:
 black='\e[0;30m'
-blue='\e[0;34m'
-green='\e[0;32m'
-cyan='\e[0;36m'
 red='\e[0;31m'
+green='\e[0;32m'
+yellow='\e[0;33m'
+blue='\e[0;34m'
 purple='\e[0;35m'
-brown='\e[0;33m'
-lightgray='\e[0;37m'
-darkgray='\e[1;30m'
-lightblue='\e[1;34m'
-lightgreen='\e[1;32m'
-lightcyan='\e[1;36m'
+cyan='\e[0;36m'
+white='\e[0;37m'
+lightblack='\e[1;30m'
 lightred='\e[1;31m'
+lightgreen='\e[1;32m'
+lightyellow='\e[1;33m'
+lightblue='\e[1;34m'
 lightpurple='\e[1;35m'
-yellow='\e[1;33m'
-white='\e[1;37m'
+lightcyan='\e[1;36m'
+lightwhite='\e[1;37m'
+darkred='\e[2;31m'
+darkgreen='\e[2;32m'
+darkyellow='\e[2;33m'
+darkblue='\e[2;34m'
+darkpurple='\e[2;35m'
+darkcyan='\e[2;36m'
+darkwhite='\e[2;37m'
 nc='\e[0m'
 
 
@@ -81,7 +88,7 @@ fi
 FANCY="\342\231\245"   # unicode heart (ALT code)
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\[$yellow\]\h: \[$red\]\w \[$yellow\]$FANCY \[$nc\] "
+    PS1="\[$lightyellow\]\h: \[$red\]\w \[$lightyellow\]$FANCY \[$nc\] "
 else
     PS1="\h: \w \$ "
 fi
@@ -113,7 +120,7 @@ fi
 clear
 echo -ne "$lightgreen"
 figlet "Welcome, " $USER;
-echo -ne "$yellow"
+echo -ne "$lightyellow"
 echo -ne "Today is "; date
 echo -ne "Uptime: "; uptime | grep -o --color=no '[0-9:]*[ min]*[ days]*,.*'
 top -b -n 1 -d 0 | grep --color=no "Tasks: "
@@ -126,7 +133,7 @@ df -h -x tmpfs -x udev # disk usage, minus def and swap
 
 ##******************************************************************************
 # Git:
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit" 
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(lightyellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit" 
 
 
 ##******************************************************************************
